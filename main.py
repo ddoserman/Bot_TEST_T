@@ -11,18 +11,21 @@ CHAT_ID = os.getenv("CHAT_ID")
 if not TELEGRAM_TOKEN or not CHAT_ID:
     raise ValueError("Не заданы TELEGRAM_TOKEN или CHAT_ID в переменных окружения!")
 
-LINKS_FILE = "sent_links.txt"
-LOG_FILE = "bot.log"
+# Определяем рабочую директорию для Actions
+BASE_DIR = os.getenv("GITHUB_WORKSPACE", ".")
+LOG_FILE = os.path.join(BASE_DIR, "bot.log")
+LINKS_FILE = os.path.join(BASE_DIR, "sent_links.txt")
 
 # ----------------- Логирование -----------------
-os.makedirs(os.path.dirname(LOG_FILE) or ".", exist_ok=True)
+os.makedirs(BASE_DIR, exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
     handlers=[
         logging.FileHandler(LOG_FILE, encoding="utf-8"),
         logging.StreamHandler()
-    ]
+    ],
+    force=True
 )
 
 ALGOLIA_URL = (
@@ -62,6 +65,7 @@ def save_sent_ids(ids):
     with open(LINKS_FILE, "a", encoding="utf-8") as f:
         for eid in ids:
             f.write(f"{eid},{int(time.time())}\n")
+    logging.info(f"Сохранили {len(ids)} новых ID в {LINKS_FILE}")
 
 def format_message(car):
     link = f"https://forhandler.toyota.no/bruktbil/{car.get('external_ad_id')}?toyota_global_styling"
@@ -176,7 +180,7 @@ async def main():
         if new_ids:
             save_sent_ids(new_ids)
         if not sent_any:
-            await send_telegram_message(session, "ℹ️ Новых объявлений Toyota нет.")
+            await send_telegram_message(session, "ℹ️ Новых объявлений нет.")
 
 if __name__ == "__main__":
     asyncio.run(main())
