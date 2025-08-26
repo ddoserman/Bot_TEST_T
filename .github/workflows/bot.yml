@@ -24,6 +24,13 @@ jobs:
           pip install aiohttp
 
       - name: Run bot
+        run: python main.py
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-         
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+
+      - name: Upload log
+        uses: actions/upload-artifact@v3
+        with:
+          name: bot-log
+          path: bot.log
