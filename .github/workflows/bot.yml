@@ -30,7 +30,7 @@ jobs:
           CHAT_ID: ${{ secrets.CHAT_ID }}
 
       - name: Upload log
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: bot-log
           path: bot.log
