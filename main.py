@@ -176,7 +176,7 @@ async def main():
         if new_ids:
             save_sent_ids(new_ids)
         if not sent_any:
-            await send_telegram_message(session, "ℹ️ Новых объявлений нет.")
+            await send_telegram_message(session, "ℹ️ Новых объявлений Toyota нет.")
 
 if __name__ == "__main__":
     asyncio.run(main())
