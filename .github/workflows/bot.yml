@@ -2,7 +2,7 @@ name: Telegram Toyota Bot
 
 on:
   schedule:
-    - cron: "0 */7 * * *"
+    - cron: "0 */7 * * *"  # каждые 7 часов
   workflow_dispatch:
 
 jobs:
@@ -24,13 +24,16 @@ jobs:
           pip install aiohttp
 
       - name: Run bot
+        working-directory: ${{ github.workspace }}
         run: python main.py
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
 
-      - name: Upload log
+      - name: Upload log and sent_links
         uses: actions/upload-artifact@v4
         with:
-          name: bot-log
-          path: bot.log
+          name: bot-artifacts
+          path: |
+            ${{ github.workspace }}/bot.log
+            ${{ github.workspace }}/sent_links.txt

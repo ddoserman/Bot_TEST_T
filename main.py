@@ -11,7 +11,7 @@ CHAT_ID = os.getenv("CHAT_ID")
 if not TELEGRAM_TOKEN or not CHAT_ID:
     raise ValueError("Не заданы TELEGRAM_TOKEN или CHAT_ID в переменных окружения!")
 
-# Определяем рабочую директорию для Actions
+# Директория репозитория на Actions
 BASE_DIR = os.getenv("GITHUB_WORKSPACE", ".")
 LOG_FILE = os.path.join(BASE_DIR, "bot.log")
 LINKS_FILE = os.path.join(BASE_DIR, "sent_links.txt")
