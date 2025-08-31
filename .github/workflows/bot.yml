@@ -1,10 +1,5 @@
 name: Telegram Toyota Bot
 
-on:
-  schedule:
-    - cron: "0 */7 * * *"  # каждые 7 часов
-  workflow_dispatch:
-
 permissions:
   contents: write  # необходимо для коммита файлов обратно в репо
 
